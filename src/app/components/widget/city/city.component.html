@@ -1,0 +1,7 @@
+<p *ngIf="!weather.main">Loading...</p>
+<div *ngIf="weather.main" class="city-card" (click)="toWeatherDetails()">
+  <p>{{city}}</p>
+  <p>temperature : {{convertTemperatureToCelsius(weather.main.temp)}}</p>
+  <p>feels-like : {{convertTemperatureToCelsius(weather.main.feels_like)}}</p>
+  <p>{{weather.weather[0].description}}</p>
+</div>
