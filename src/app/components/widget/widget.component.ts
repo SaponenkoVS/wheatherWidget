@@ -14,7 +14,7 @@ export class WidgetComponent implements OnInit {
     this.randomCities = this.getRandomCities()
     setInterval(() => {
       this.randomCities = this.getRandomCities()
-    }, 10000)
+    }, 60000)
   }
 
   getRandomCities() {

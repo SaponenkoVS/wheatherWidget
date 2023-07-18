@@ -8,6 +8,7 @@ import {AppRoutingModule} from "./app-routing.module";
 import { CityComponent } from './components/widget/city/city.component';
 import {NgForOf, NgIf} from "@angular/common";
 import {UsecasesModule} from "./usecase/usecases.module";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {UsecasesModule} from "./usecase/usecases.module";
   imports: [
     AppRoutingModule,
     BrowserModule,
+    BrowserAnimationsModule,
     RouterOutlet,
     UsecasesModule
   ],

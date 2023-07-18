@@ -1,16 +1,28 @@
-import {Component, Input, OnChanges, OnDestroy, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {GeocodingUsecase} from "../../../usecase/geocoding.usecase";
 import {GetWeatherByLocationUsecase} from "../../../usecase/get-weather-by-location.usecase";
 import {Location} from "../../../model/Location.model";
 import {WeatherDataModel} from "../../../model/WeatherData.model";
-import {Subscription} from "rxjs";
+import {interval, Subscription} from "rxjs";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-city',
   templateUrl: './city.component.html',
-  styleUrls: ['./city.component.css']
+  styleUrls: ['./city.component.css'],
+  animations: [
+    trigger('slideInOut', [
+      transition(':enter', [
+        style({transform: 'translateX(-100%)', opacity: 0}),
+        animate('300ms', style({transform: 'translateX(0)', opacity: 1})),
+      ]),
+      transition(':leave', [
+        animate('300ms', style({transform: 'translateX(100%)', opacity: 0})),
+      ]),
+    ]),
+  ],
 })
-export class CityComponent implements OnChanges, OnDestroy {
+export class CityComponent implements OnChanges, OnInit, OnDestroy {
   constructor(private geocodingUsecase: GeocodingUsecase, private getWeatherByLocationUsecase: GetWeatherByLocationUsecase) {
   }
 
@@ -29,12 +41,17 @@ export class CityComponent implements OnChanges, OnDestroy {
     }
   }
 
+  ngOnInit() {
+    this.subscription = interval(10000).subscribe(() => {
+      this.fetchWeatherData(this.locationData)
+    })
+  }
+
   toWeatherDetails() {
     window.open(`https://openweathermap.org/city/${this.weatherId}`, "_blank")
   }
 
   fetchWeatherData(location: Location) {
-    this.weather = {} as WeatherDataModel
     this.getWeatherByLocationUsecase.execute(location.lat, location.lon).subscribe((res: WeatherDataModel) => {
       this.weatherId = res.id
       this.weather = res
