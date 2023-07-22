@@ -1,7 +1,9 @@
-<p *ngIf="!weather.main">Loading...</p>
-<div *ngIf="weather.main" [@slideInOut]="locationData" class="city-card" (click)="toWeatherDetails()">
-  <p class="city-name">{{city}}</p>
-  <p>Temperature : {{convertTemperatureToCelsius(weather.main.temp)}} degree</p>
-  <p>Feels like : {{convertTemperatureToCelsius(weather.main.feels_like)}} degree</p>
-  <p class="description">{{weather.weather[0].description}}</p>
+<div class="city-card">
+  <p *ngIf="!weather.main">Loading...</p>
+  <div *ngIf="weather.main" [@slideInOut]="weather" (click)="toWeatherDetails()">
+    <p class="bold-text">{{city}}</p>
+    <p>Temperature : {{convertTemperatureToCelsius(weather.main.temp)}} degree</p>
+    <p>Feels like : {{convertTemperatureToCelsius(weather.main.feels_like)}} degree</p>
+    <p class="bold-text">{{weather.weather[0].description}}</p>
+  </div>
 </div>
